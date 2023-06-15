@@ -1,0 +1,8 @@
+/.venv
+
+/.env
+
+/.flaskenv
+
+/__pycache__
+
