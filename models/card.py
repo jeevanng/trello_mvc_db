@@ -19,7 +19,7 @@ class Card(db.Model):
     # Returns the information about the user which created the card 
 
 class CardSchema(ma.Schema):
-    user = fields.Nested('User', only=['name', 'email'])
+    user = fields.Nested('UserSchema', only=['name', 'email'])
 
     class Meta: 
         fields = ('id', 'title', 'description', 'date', 'status', 'priority', 'user')
