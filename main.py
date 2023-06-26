@@ -8,6 +8,10 @@ import os
 
 def create_app():
     app = Flask(__name__)
+
+    # Make it that flask json does not sort keys automatically, so we maintain the ordered we state in models.
+    app.json.sort_keys = False
+
     #                                          dbms      driver      user      pw            port    db_name
     app.config["SQLALCHEMY_DATABASE_URI"]=os.environ.get("DATABASE_URL")
     app.config["JWT_SECRET_KEY"]=os.environ.get("JWT_SECRET_KEY")

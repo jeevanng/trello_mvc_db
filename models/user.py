@@ -15,6 +15,7 @@ class User(db.Model):
 
 class UserSchema(ma.Schema):
     # Because this is multiple, we use .List
+    # Plural here, because one user can have multiple/many cards
     cards = fields.List(fields.Nested('Cards', exclude=['user']))
 
     class Meta:

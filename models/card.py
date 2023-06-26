@@ -14,11 +14,13 @@ class Card(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     # The model () in relates to
+    # The back_populates='cards' needs to match the 'cards' or variable name in user.py models and vice versa
     user = db.relationship('User', back_populates='cards')
     # {id:1, title: "Card 1", description: "ajsdlfjds", etc, user: {id: 3, name: "User 1", email: "User1@email.com" etc}}
     # Returns the information about the user which created the card 
 
 class CardSchema(ma.Schema):
+    # We use singular here, because one card can only have one user
     user = fields.Nested('UserSchema', only=['name', 'email'])
 
     class Meta: 
