@@ -11,6 +11,7 @@ class Comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     card_id = db.Column(db.Integer, db.ForeignKey('cards.id'), nullable=False)
 
+    # A comment will belong to ONE 'user' and ONE 'card'
     user = db.relationship('User', back_populates='comments')
     card = db.relationship('Card', back_populates='comments')
 
@@ -18,11 +19,13 @@ class Comment(db.Model):
 class CommentSchema(ma.Schema):
     # Singular, comment can only belong to one user or one card
     # Because user is a relationship, convert the user field according to the UserSchema.
+    # We created user/card in db.relationship, thus we need the below
     user = fields.Nested('UserSchema', only=['name', 'email'])
     card = fields.Nested('CardSchema', exclude=['comments'])
 
     class Meta:
         fields = ['id', 'message', 'card', 'user']
+        ordered = True
 
 comment_schema = CommentSchema()
 comments_schema = CommentSchema(many=True)

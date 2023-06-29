@@ -20,6 +20,8 @@ class Card(db.Model):
     # Returns the information about the user which created the card 
     comments = db.relationship('Comment', back_populates='card', cascade='all, delete')
 
+    # Relationship will not appear in the database under columns, however it will be extracted from ORM. SQLAlchemy 
+
 class CardSchema(ma.Schema):
     # We use singular here, because one card can only have one user
     user = fields.Nested('UserSchema', only=['name', 'email'])

@@ -17,13 +17,14 @@ class User(db.Model):
 
 class UserSchema(ma.Schema):
     # Because this is multiple, we use .List
-    # Plural here, because one user can have multiple/many cards
+    # Plural here, because one user can have multiple/many cards. i.e. 'cards' and 'comments', if it was just singular, we would minus the 's'
     cards = fields.List(fields.Nested('CardSchema', exclude=['user']))
     comments = fields.List(fields.Nested('CommentSchema', exclude=['user']))
 
     class Meta:
         # Whenever we dump, this is what we get
         fields = ('id', 'name', 'email', 'password', 'is_admin', 'cards', 'comments')
+        ordered = True
 
 user_schema = UserSchema(exclude=['password'])
 users_schema = UserSchema(many=True, exclude=['password'])
