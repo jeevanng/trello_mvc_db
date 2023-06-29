@@ -23,7 +23,7 @@ def create_app():
 
     # register the blueprint db_commands
     app.register_blueprint(db_commands)
-    # register auth_bp blueprint
+    # register auth_bp/cards blueprint
     app.register_blueprint(auth_bp)
     app.register_blueprint(cards_bp)
 

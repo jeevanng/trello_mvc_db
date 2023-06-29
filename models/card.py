@@ -18,13 +18,17 @@ class Card(db.Model):
     user = db.relationship('User', back_populates='cards')
     # {id:1, title: "Card 1", description: "ajsdlfjds", etc, user: {id: 3, name: "User 1", email: "User1@email.com" etc}}
     # Returns the information about the user which created the card 
+    comments = db.relationship('Comment', back_populates='card', cascade='all, delete')
+
+    # Relationship will not appear in the database under columns, however it will be extracted from ORM. SQLAlchemy 
 
 class CardSchema(ma.Schema):
     # We use singular here, because one card can only have one user
     user = fields.Nested('UserSchema', only=['name', 'email'])
+    comments = fields.List(fields.Nested('CommentSchema', exclude=['card']))
 
     class Meta: 
-        fields = ('id', 'title', 'description', 'date', 'status', 'priority', 'user')
+        fields = ('id', 'title', 'description', 'date', 'status', 'priority', 'user', 'comments')
         # When we dump data, the order of the fields will be followed 
         ordered = True 
 
