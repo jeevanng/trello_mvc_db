@@ -83,6 +83,9 @@ def update_one_card(id):
     card = db.session.scalar(stmt)
 
     if card:
+        # str(card.user_id) will fetch the id (the owner). If this is not equal to the person trying to edit get_jwt_identity()
+        if str(card.user_id) != get_jwt_identity():
+            return {'error': 'Only the owner of the card can edit.'}, 403
         card.title = body_data.get('title') or card.title
         card.description = body_data.get('description') or card.description
         card.status = body_data.get('status') or card.status
