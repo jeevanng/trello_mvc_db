@@ -32,7 +32,8 @@ def get_one_card(id):
 @cards_bp.route('/', methods=['POST'])
 @jwt_required()
 def create_card():
-    body_data = request.get_json()
+    # .load will use the marshmallow validator now, the min=2 etc. 
+    body_data = card_schema.load(request.get_json())
     # create new card model instance
     card = Card(
         title=body_data.get('title'),
@@ -72,7 +73,7 @@ def delete_one_card(id):
 # Whether we use PUT or PATCH, we will still run through the function below
 @jwt_required()
 def update_one_card(id):
-    body_data = request.get_json()
+    body_data = card_schema.load(request.get_json(), partial=True)
     stmt = db.select(Card).filter_by(id=id)
     card = db.session.scalar(stmt)
 
